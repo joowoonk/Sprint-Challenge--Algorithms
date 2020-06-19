@@ -95,9 +95,40 @@ class SortingRobot:
     def sort(self):
         """
         Sort the robot's list.
+        This robot will sort using selection sort.
         """
-        # Fill this out
-        pass
+        # turn the light on of the robot first
+        self.set_light_on()
+        
+        # so robot will be in while loop until it finishes off the sorting
+        while self.light_is_on():
+            # robot will swipe with his NONE card, with first card as starter and this will be back, NONE card will sequencely  
+            self.swap_item()
+            # check if there is right first 
+            while self.can_move_right():
+                #move the robot next to right
+                self.move_right()
+                # if robot's card atm is bigger than a card in current place then swipe.  
+                if self.compare_item() == 1:
+                    self.swap_item()
+            # after robot picks change the chard then turn it off so it will go to other while loop.
+            self.set_light_off()
+
+            # robot will go left while its light is off
+            while not self.light_is_on():
+                #keep moving left until it's None
+                while self.compare_item() is not None:
+                    self.move_left()
+                #if robot meets NONE card then swap a current position's card.
+                self.swap_item()
+                # turn the light on again so it will go back to first top while loop. 
+                self.set_light_on()
+            #before going to the first while loop, make sure to move the robot to right once so NONE card will shift to next position place. 
+            self.move_right()
+            # so if robot hits dead end of right and robot has NONE card it will finish off the task
+            if self.compare_item() is None and not self.can_move_right():
+                #used return here on purpose so it wont return NONE and the light will be off as well. 
+                return self.set_light_off()
 
 
 if __name__ == "__main__":
